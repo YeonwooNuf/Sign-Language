@@ -62,13 +62,11 @@ while cap.isOpened():
             koreanText = label_map.get(prediction, "알 수 없음")    # 예측값 한글로 변환
             frame = draw_koreanText(frame, f"예측: {koreanText}")
         else:
-            cv2.putText(frame, "손을 정확히 보여주세요", (30, 100),
-                        cv2.FONT_HERSHEY_SIMPLEX, 1, (100, 100, 100), 2)
-
+            frame = draw_koreanText(frame, "손을 정확히 보여주세요"), (30, 100)
     else:
-        cv2.putText(frame, "손이 감지되지 않음", (30, 100),
-                    cv2.FONT_HERSHEY_SIMPLEX, 1, (100, 100, 100), 2)
+        frame = draw_koreanText(frame, "손이 감지되지 않음"), (30, 100)
 
+    # 프레임 구조 + esc 누르면 종료
     cv2.imshow("Sign Language Inference", frame)
     if cv2.waitKey(10) & 0xFF == 27:
         break
