@@ -17,7 +17,7 @@ label_map = {
 }
 
 # 한글 출력 함수 (D2Coding)
-def draw_koreanText(frame, text, position=(30, 100), font_path="/Library/Fonts/D2Coding.ttf", font_size=40, color=(0, 0, 0)):
+def draw_koreanText(frame, text, position=(30, 100), font_path="/Library/Fonts/D2Coding-Ver1.3.1-20180115.ttf", font_size=40, color=(0, 0, 0)):
     img_pil = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
     draw = ImageDraw.Draw(img_pil)
     font = ImageFont.truetype(font_path, font_size)
@@ -62,9 +62,9 @@ while cap.isOpened():
             koreanText = label_map.get(prediction, "알 수 없음")    # 예측값 한글로 변환
             frame = draw_koreanText(frame, f"예측: {koreanText}")
         else:
-            frame = draw_koreanText(frame, "손을 정확히 보여주세요"), (30, 100)
+            frame = draw_koreanText(frame, "손을 정확히 보여주세요", (30, 100))
     else:
-        frame = draw_koreanText(frame, "손이 감지되지 않음"), (30, 100)
+        frame = draw_koreanText(frame, "손이 감지되지 않음", (30, 100))
 
     # 프레임 구조 + esc 누르면 종료
     cv2.imshow("Sign Language Inference", frame)
