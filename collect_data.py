@@ -55,7 +55,7 @@ while cap.isOpened():   # 카메라가 열려있는 동안
             if prev_landmark is not None:
                 diff = np.linalg.norm(np.array(landmark_list) - np.array(prev_landmark))
                 # 손이 거의 안움직이면 stable_frame 증가
-                if diff < 0.01:
+                if diff < 0.05:
                     stable_frame += 1
                 # 움직임 발생시 초기화
                 else:
