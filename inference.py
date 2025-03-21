@@ -2,6 +2,7 @@ import cv2
 import mediapipe as mp
 import numpy as np
 import joblib
+from PIL import ImageFont, ImageDraw, Image
 
 # 모델 불러오기
 model = joblib.load("models/knn_model.pkl")
@@ -14,6 +15,14 @@ label_map = {
     "yes": "예",
     "no": "아니요"
 }
+
+# 한글 출력 함수 (D2Coding)
+def draw_koreanText(frame, text, position=(30, 100), font_path="/Library/Fonts/D2Coding.ttf", font_size=40, color=(0, 0, 0)):
+    img_pil = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+    draw = ImageDraw.Draw(img_pil)
+    font = ImageFont.truetype(font_path, font_size)
+    draw.text(position, text, font=font, fill=color)
+    return cv2.cvtColor(np.array(img_pil), cv2.COLOR_RGB2BGR)
 
 # Mediapipe 설정
 mp_hands = mp.solutions.hands
@@ -50,8 +59,8 @@ while cap.isOpened():
         if len(landmark_list) == 126:
             input_data = np.array(landmark_list).reshape(1, -1)
             prediction = model.predict(input_data)[0]
-            cv2.putText(frame, f"예측: {prediction}", (30, 100),
-                        cv2.FONT_HERSHEY_SIMPLEX, 1.5, (0, 0, 0), 3)
+            koreanText = label_map.get(prediction, "알 수 없음")    # 예측값 한글로 변환
+            frame = draw_koreanText(frame, f"예측: {koreanText}")
         else:
             cv2.putText(frame, "손을 정확히 보여주세요", (30, 100),
                         cv2.FONT_HERSHEY_SIMPLEX, 1, (100, 100, 100), 2)
