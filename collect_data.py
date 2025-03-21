@@ -5,7 +5,7 @@ import os
 import time
 
 # 수집할 데이터 이름
-label = "hello"
+label = "iloveyou"
 save_dir = f"data/{label}"
 os.makedirs(save_dir, exist_ok=True)
 
@@ -20,7 +20,7 @@ cap = cv2.VideoCapture(0)
 count = 0   # 저장할 프레임 수
 prev_landmark = None    # 이전 프레임의 손 좌표
 stable_frame = 0    # 연속으로 손이(거의) 안움직인 프레임 수 = 정지 상태
-required_staeble_frames = 20    # 정지 상태 간주 기준(약 2초)
+required_stable_frames = 20    # 정지 상태 간주 기준(약 2초)
 collecting = False  # 현재 수집 중인지 여부
 
 while cap.isOpened():   # 카메라가 열려있는 동안
@@ -63,7 +63,7 @@ while cap.isOpened():   # 카메라가 열려있는 동안
             prev_landmark = landmark_list.copy()
 
             # 정지 상태 2초 유지 시 수집 시작
-            if not collecting and stable_frame >= required_staeble_frames:
+            if not collecting and stable_frame >= required_stable_frames:
                 collecting = True
 
             # 수집 중이면 landmark 저장
@@ -74,7 +74,7 @@ while cap.isOpened():   # 카메라가 열려있는 동안
 
     # 현재 상태에 따라 화면에 표시
     if not collecting:
-        cv2.putText(frame, f"정지 상태 대기 중... ({stable_frames}/{required_stable_frames})", (30, 80),
+        cv2.putText(frame, f"정지 상태 대기 중... ({stable_frame}/{required_stable_frames})", (30, 80),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
     else:
         cv2.putText(frame, f"{label} 수집 중: {count}/200", (30, 50),
