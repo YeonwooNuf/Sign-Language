@@ -6,6 +6,15 @@ import joblib
 # 모델 불러오기
 model = joblib.load("models/knn_model.pkl")
 
+# 영어 → 한글 매핑
+label_map = {
+    "hello": "안녕하세요",
+    "thankyou": "감사합니다",
+    "iloveyou": "사랑해요",
+    "yes": "예",
+    "no": "아니요"
+}
+
 # Mediapipe 설정
 mp_hands = mp.solutions.hands
 mp_drawing = mp.solutions.drawing_utils
