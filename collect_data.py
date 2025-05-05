@@ -5,7 +5,7 @@ import os
 import time
 
 # 수집할 데이터 이름
-label = "iloveyou"
+label = "thankyou"
 save_dir = f"data/{label}"
 os.makedirs(save_dir, exist_ok=True)
 
